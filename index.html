@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineVault — Premium Movie Vault & Cinematic Catalog</title>
+  <meta name="description" content="Explore a curated cinema vault featuring They Call Him OG (2025), Ram Charan's complete filmography, Telugu blockbusters, Hollywood legends, Hindi classics, and World Cinema treasures.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body class="dark-theme">
+  <!-- Top Background Ambient Glows -->
+  <div class="ambient-glow glow-top-left" aria-hidden="true"></div>
+  <div class="ambient-glow glow-top-right" aria-hidden="true"></div>
+
+  <!-- Main Navigation Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <div class="brand-area" role="banner">
+        <a href="#hero" class="brand-link" aria-label="CineVault Home">
+          <div class="brand-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="4"></rect>
+              <path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"></path>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">CINE<span class="brand-accent">VAULT</span></span>
+            <span class="brand-sub">CINEMA ARCHIVE</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Live Search Bar -->
+      <div class="search-wrapper">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="search" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="Search by title, director, or cast..." 
+            autocomplete="off" 
+            aria-label="Search movies by title, director, or cast"
+          />
+          <button type="button" id="clearSearchBtn" class="clear-search-btn hidden" aria-label="Clear search input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+          <kbd class="search-shortcut" title="Press / to search">/</kbd>
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions">
+        <!-- TMDB Mode Indicator & Settings Trigger -->
+        <button type="button" id="openTmdbModalBtn" class="header-btn tmdb-btn" title="Configure TMDB API / Catalog Mode">
+          <span class="tmdb-pill" id="tmdbModePill">
+            <span class="pulse-dot"></span>
+            <span id="tmdbModeLabel">Offline Catalog</span>
+          </span>
+          <svg class="gear-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+
+        <!-- Personal Watchlist Drawer Toggle Button -->
+        <button type="button" id="openWatchlistBtn" class="header-btn watchlist-btn" aria-label="Open Personal Watchlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="watchlist-text">Watchlist</span>
+          <span id="watchlistBadge" class="watchlist-count-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrap -->
+  <main class="site-main">
+    
+    <!-- Hero Banner Showcase: Features "They Call Him OG" (2025, Pawan Kalyan) by default -->
+    <section class="hero-section" id="hero" aria-label="Featured Movie Showcase">
+      <div class="hero-backdrop-container" id="heroBackdropContainer">
+        <div class="hero-backdrop" id="heroBackdrop"></div>
+        <div class="hero-overlay-radial"></div>
+        <div class="hero-overlay-linear"></div>
+      </div>
+
+      <div class="hero-content-wrapper">
+        <div class="hero-content" id="heroContent">
+          <!-- Injected dynamically via app.js with They Call Him OG default -->
+        </div>
+
+        <!-- Hero Carousel Dots / Switcher -->
+        <div class="hero-controls">
+          <div class="hero-dots" id="heroDots" role="tablist" aria-label="Featured Movie Selector"></div>
+          <div class="hero-nav-arrows">
+            <button type="button" id="heroPrevBtn" class="hero-arrow-btn" aria-label="Previous Featured Movie">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" id="heroNextBtn" class="hero-arrow-btn" aria-label="Next Featured Movie">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ram Charan Spotlight Filmography Strip -->
+    <section class="spotlight-strip-section" aria-label="Ram Charan Spotlight">
+      <div class="section-container">
+        <div class="spotlight-bar">
+          <div class="spotlight-badge">
+            <span class="fire-icon">🔥</span>
+            <span>SUPERSTAR SPOTLIGHT</span>
+          </div>
+          <div class="spotlight-title-group">
+            <h2 class="spotlight-title">Ram Charan’s Complete Filmography</h2>
+            <p class="spotlight-desc">From his upcoming powerhouse <em>Peddi</em> &amp; Shankar's <em>Game Changer</em> to Oscar-triumph <em>RRR</em>, <em>Rangasthalam</em>, <em>Dhruva</em> &amp; <em>Magadheera</em>.</p>
+          </div>
+          <button type="button" id="filterRamCharanQuickBtn" class="spotlight-action-btn">
+            <span>Explore Ram Charan Films</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Explorer & Filter Controls Section -->
+    <section class="catalog-section" id="catalogSection" aria-label="Movie Catalog">
+      <div class="section-container">
+        
+        <!-- Controls Bar -->
+        <div class="controls-bar" id="controlsBar">
+          <div class="controls-top-row">
+            <!-- Industry Filter Pills -->
+            <div class="industry-pills" id="industryPills" role="radiogroup" aria-label="Filter by Industry">
+              <button type="button" class="pill-btn active" data-industry="All" role="radio" aria-checked="true">
+                <span class="pill-indicator"></span>
+                <span>All Films</span>
+              </button>
+              <button type="button" class="pill-btn" data-industry="Telugu" role="radio" aria-checked="false">
+                <span class="pill-indicator"></span>
+                <span>Telugu</span>
+              </button>
+              <button type="button" class="pill-btn" data-industry="Hollywood" role="radio" aria-checked="false">
+                <span class="pill-indicator"></span>
+                <span>Hollywood</span>
+              </button>
+              <button type="button" class="pill-btn" data-industry="Hindi" role="radio" aria-checked="false">
+                <span class="pill-indicator"></span>
+                <span>Hindi</span>
+              </button>
+              <button type="button" class="pill-btn" data-industry="World Cinema" role="radio" aria-checked="false">
+                <span class="pill-indicator"></span>
+                <span>World Cinema</span>
+              </button>
+            </div>
+
+            <!-- Sort and Genre Selectors -->
+            <div class="dropdown-controls">
+              <!-- Genre Selector -->
+              <div class="select-group">
+                <label for="genreSelect" class="select-label">Genre</label>
+                <div class="select-box">
+                  <select id="genreSelect" class="custom-select" aria-label="Filter by Genre">
+                    <!-- Populated dynamically via movies.js GENRES -->
+                  </select>
+                  <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              <!-- Sort Option Selector -->
+              <div class="select-group">
+                <label for="sortSelect" class="select-label">Sort By</label>
+                <div class="select-box">
+                  <select id="sortSelect" class="custom-select" aria-label="Sort Movies">
+                    <option value="top-rated">★ Top Rated</option>
+                    <option value="newest">📅 Newest First</option>
+                    <option value="oldest">⏳ Oldest First</option>
+                    <option value="az">🔤 Title (A - Z)</option>
+                    <option value="runtime">⏱ Longest Runtime</option>
+                  </select>
+                  <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Summary & Results Status -->
+          <div class="results-meta-bar">
+            <div class="results-stats">
+              <span id="resultsCount">Showing 35 movies</span>
+              <span id="activeFilterTags" class="active-filter-tags"></span>
+            </div>
+            <button type="button" id="resetFiltersBtn" class="reset-filters-btn hidden">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              <span>Reset Filters</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Movie Cards Grid Container -->
+        <div class="movies-grid" id="moviesGrid" role="region" aria-live="polite">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+
+        <!-- Empty Results State -->
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+              <line x1="7" y1="2" x2="7" y2="22"></line>
+              <line x1="17" y1="2" x2="17" y2="22"></line>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <line x1="2" y1="7" x2="7" y2="7"></line>
+              <line x1="2" y1="17" x2="7" y2="17"></line>
+              <line x1="17" y1="17" x2="22" y2="17"></line>
+              <line x1="17" y1="7" x2="22" y2="7"></line>
+            </svg>
+          </div>
+          <h3 class="empty-title">No movies found</h3>
+          <p class="empty-desc" id="emptyDesc">We couldn't find any films matching your search or active filter combination.</p>
+          <button type="button" class="btn btn-primary" id="emptyResetBtn">
+            Reset All Filters
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: Movie Details Modal                               -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay hidden" id="movieDetailsModal" role="dialog" aria-modal="true" aria-labelledby="modalMovieTitle">
+    <div class="modal-container modal-movie-container">
+      <button type="button" class="modal-close-btn" id="closeMovieDetailsBtn" aria-label="Close movie details dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="modal-scroll-area">
+        <!-- Backdrop Banner with Gradient -->
+        <div class="modal-hero-banner" id="modalHeroBanner">
+          <div class="modal-banner-img" id="modalBackdropImg"></div>
+          <div class="modal-banner-gradient"></div>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-header-layout">
+            <!-- Modal Poster with Fallback -->
+            <div class="modal-poster-wrap">
+              <img id="modalPoster" src="" alt="Movie Poster" class="modal-poster-img" />
+              <button type="button" id="modalQuickWatchlistBtn" class="modal-watchlist-floating-btn" title="Add to Watchlist">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              </button>
+            </div>
+
+            <!-- Modal Primary Meta Information -->
+            <div class="modal-main-info">
+              <div class="modal-tag-row">
+                <span class="badge badge-industry" id="modalIndustryBadge">Telugu</span>
+                <span class="badge badge-cert" id="modalCertBadge">UA</span>
+                <span class="badge badge-year" id="modalYearBadge">2025</span>
+                <span class="badge badge-runtime" id="modalRuntimeBadge">168 min</span>
+              </div>
+
+              <h2 class="modal-title" id="modalMovieTitle">They Call Him OG</h2>
+              <div class="modal-original-title" id="modalOriginalTitle">They Call Him OG (ఓజీ)</div>
+              <p class="modal-tagline" id="modalTagline">"Firestorm is coming. Bombay will burn."</p>
+
+              <!-- Star Rating Bar -->
+              <div class="modal-rating-row">
+                <div class="modal-stars">
+                  <span class="star-icon">★</span>
+                  <span class="rating-num" id="modalRatingScore">9.3</span>
+                  <span class="rating-scale">/ 10</span>
+                </div>
+                <div class="genre-pills-list" id="modalGenrePills">
+                  <!-- e.g. Action, Crime, Thriller -->
+                </div>
+              </div>
+
+              <!-- Action Buttons Row -->
+              <div class="modal-action-buttons">
+                <button type="button" id="modalPlayTrailerBtn" class="btn btn-primary btn-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                  <span>Watch Trailer</span>
+                </button>
+                <button type="button" id="modalWatchlistBtn" class="btn btn-secondary btn-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                  <span id="modalWatchlistBtnText">Add to Watchlist</span>
+                </button>
+                <button type="button" id="modalShareBtn" class="btn btn-ghost btn-icon" title="Share this movie">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                  <span>Share</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Synopsis Section -->
+          <div class="modal-section">
+            <h3 class="modal-section-title">Synopsis</h3>
+            <p class="modal-synopsis-text" id="modalSynopsis"></p>
+          </div>
+
+          <!-- Director & Cast Credits Section -->
+          <div class="modal-section credits-grid">
+            <div class="credit-card">
+              <span class="credit-label">Director</span>
+              <span class="credit-value" id="modalDirector">Sujeeth</span>
+            </div>
+            <div class="credit-card full-span">
+              <span class="credit-label">Starring Cast</span>
+              <div class="cast-chips" id="modalCastChips">
+                <!-- Cast pills -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations Carousel Row -->
+          <div class="modal-section recommendations-section" id="modalRecommendationsSection">
+            <h3 class="modal-section-title">More Like This</h3>
+            <div class="recommendations-row" id="modalRecommendationsRow">
+              <!-- Recommeded cards -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: Embedded Video Trailer Player                     -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay hidden" id="trailerModal" role="dialog" aria-modal="true" aria-label="Movie Trailer Video Player">
+    <div class="modal-container modal-trailer-container">
+      <div class="trailer-header">
+        <h3 class="trailer-title" id="trailerTitle">Movie Trailer</h3>
+        <button type="button" class="modal-close-btn" id="closeTrailerBtn" aria-label="Close trailer video">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="trailer-video-wrapper">
+        <iframe 
+          id="trailerIframe" 
+          src="" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="trailer-footer">
+        <span class="trailer-hint">Trailer opening blocked by browser security?</span>
+        <a id="externalTrailerLink" href="#" target="_blank" rel="noopener noreferrer" class="external-trailer-link">
+          Open directly on YouTube ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- DRAWER: Personal Watchlist                               -->
+  <!-- ======================================================== -->
+  <div class="drawer-overlay hidden" id="watchlistOverlay" aria-hidden="true"></div>
+  <aside class="watchlist-drawer hidden" id="watchlistDrawer" aria-label="Personal Movie Watchlist" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="drawer-title-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+        <h2 class="drawer-title">My Watchlist</h2>
+        <span class="drawer-count-badge" id="drawerCountBadge">0</span>
+      </div>
+      <div class="drawer-header-actions">
+        <button type="button" id="clearWatchlistBtn" class="clear-watchlist-btn" title="Clear all movies from watchlist">
+          Clear All
+        </button>
+        <button type="button" id="closeWatchlistBtn" class="drawer-close-btn" aria-label="Close watchlist drawer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Drawer Content List -->
+    <div class="drawer-body" id="watchlistItemsList">
+      <!-- Populated dynamically by app.js -->
+    </div>
+
+    <!-- Drawer Empty State -->
+    <div class="drawer-empty hidden" id="watchlistEmptyState">
+      <div class="drawer-empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </div>
+      <h3>Your Watchlist is empty</h3>
+      <p>Save movies by clicking the bookmark icon on any poster or detail page to build your personalized vault.</p>
+      <button type="button" class="btn btn-secondary" id="exploreCatalogFromDrawerBtn">
+        Browse Movies
+      </button>
+    </div>
+  </aside>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: TMDB v3 API Key Configuration                    -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay hidden" id="tmdbModal" role="dialog" aria-modal="true" aria-labelledby="tmdbModalTitle">
+    <div class="modal-container modal-tmdb-container">
+      <div class="modal-tmdb-header">
+        <div class="tmdb-brand-row">
+          <div class="tmdb-logo-pill">TMDB API v3</div>
+          <span class="tmdb-badge-online">Live Search &amp; Streaming</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeTmdbBtn" aria-label="Close TMDB configuration dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-tmdb-body">
+        <h3 id="tmdbModalTitle" class="tmdb-dialog-title">Connect The Movie Database (TMDB)</h3>
+        <p class="tmdb-dialog-desc">
+          Switch seamlessly between CineVault's <strong>Curated Offline Catalog</strong> and <strong>Live TMDB Search</strong>. Entering your free TMDB v3 API key enables real-time search across hundreds of thousands of movies worldwide.
+        </p>
+
+        <form id="tmdbKeyForm" class="tmdb-form">
+          <div class="form-group">
+            <label for="tmdbApiKeyInput" class="form-label">
+              TMDB v3 API Key
+              <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener noreferrer" class="link-helper">
+                Get a free key ↗
+              </a>
+            </label>
+            <div class="input-with-button">
+              <input 
+                type="password" 
+                id="tmdbApiKeyInput" 
+                class="form-input" 
+                placeholder="e.g. 3b2d18f98... (32 characters hex)" 
+                autocomplete="off"
+              />
+              <button type="button" id="toggleApiKeyVisibilityBtn" class="btn-input-accessory" aria-label="Toggle API key visibility">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="eyeIcon">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+            <span class="form-tip">Keys are saved locally in your browser’s localStorage. Never sent to any external server.</span>
+          </div>
+
+          <!-- Mode Switch Toggle -->
+          <div class="toggle-mode-card">
+            <div class="toggle-mode-info">
+              <span class="toggle-mode-title">Live TMDB Mode</span>
+              <span class="toggle-mode-sub" id="modeSubText">Currently using offline curated catalog</span>
+            </div>
+            <label class="switch" for="tmdbModeToggle">
+              <input type="checkbox" id="tmdbModeToggle" />
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <!-- Connection Status Alert -->
+          <div class="connection-status-box hidden" id="tmdbStatusBox">
+            <span class="status-icon" id="tmdbStatusIcon">●</span>
+            <span class="status-msg" id="tmdbStatusMsg">Ready</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="modal-form-actions">
+            <button type="button" id="testTmdbConnectionBtn" class="btn btn-secondary">
+              Test Connection
+            </button>
+            <button type="submit" id="saveTmdbKeyBtn" class="btn btn-primary">
+              Save &amp; Apply
+            </button>
+            <button type="button" id="removeTmdbKeyBtn" class="btn btn-danger hidden">
+              Remove Key
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Popup -->
+  <div class="toast-notification hidden" id="toastNotification" role="status" aria-live="polite">
+    <div class="toast-icon" id="toastIcon">✓</div>
+    <div class="toast-message" id="toastMessage">Movie added to Watchlist</div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-link">
+          <div class="brand-icon small">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="4"></rect>
+              <path d="M7 2v20M17 2v20M2 12h20"></path>
+            </svg>
+          </div>
+          <span class="brand-title">CINE<span class="brand-accent">VAULT</span></span>
+        </div>
+        <p class="footer-tagline">Cinematic Archive celebrating the finest Telugu, Hollywood, Bollywood, and World Cinema masterpieces.</p>
+      </div>
+
+      <div class="footer-keyboard-shortcuts">
+        <span class="shortcut-title">Keyboard Shortcuts:</span>
+        <div class="shortcuts-list">
+          <span><kbd>/</kbd> Live Search</span>
+          <span><kbd>W</kbd> Watchlist</span>
+          <span><kbd>Esc</kbd> Close Dialogs</span>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 CineVault Cinema Vault. Built for cinephiles. Responsive &amp; Offline-Ready.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: movies.js loaded first, followed by app.js -->
+  <script src="movies.js?v=5"></script>
+  <script src="app.js?v=5"></script>
+</body>
+</html>
